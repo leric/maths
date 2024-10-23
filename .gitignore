@@ -1,0 +1,5 @@
+*.pyc
+media/
+manim/
+videos/
+.DS_Store
