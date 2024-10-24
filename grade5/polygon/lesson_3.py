@@ -3,41 +3,44 @@
 
 综合题
 """
-from manimlib import *
+from manim import *
+
+config['tex_template'] = TexTemplateLibrary.ctex
 
 
 class Example1(Scene):
   def construct(self):
     title = Text('面积相等的三角形 综合例题1', font_size=28).to_corner(UP + LEFT)
-    instruction = Text("在边长为10cm的正方形内，有一个四边形ABCD，求这个四边形的面积。", font_size=22).next_to(title, DOWN, aligned_edge=LEFT_SIDE)
-    self.play(Write(title), ShowCreation(instruction))
+    instruction = Text("在边长为10cm的正方形内，有一个四边形ABCD，求这个四边形的面积。", font_size=22)
+    instruction.next_to(title, DOWN, aligned_edge=LEFT)
+    self.play(Write(title), Create(instruction))
 
     # 创建一个正方形
     square = Square(side_length=5)
-    self.play(ShowCreation(square))
+    self.play(Create(square))
     # 获取正方形的顶点坐标
     top_right, _, bottom_left, _ = square.get_vertices()
 
     # 从顶边靠左任意一点A，画垂直线到底边
-    point_a = [top_right[0] - 3.5, top_right[1], 0]
+    point_a = (top_right[0] - 3.5, top_right[1], 0.0)
     a_label = Text("A", font_size=20).next_to(point_a, UP, buff=0.1)
-    point_a2 = [point_a[0], bottom_left[1], 0]
+    point_a2 = (point_a[0], bottom_left[1], 0.0)
     line_a = Line(point_a, point_a2)
 
     # 左边靠下任意一点B, 画水平线到右边
-    point_b = [bottom_left[0], bottom_left[1] + 1.8, 0]
+    point_b = (bottom_left[0], bottom_left[1] + 1.8, 0.0)
     b_label = Text("B", font_size=20).next_to(point_b, LEFT, buff=0.1)
-    point_b2 = [top_right[0], point_b[1], 0]
+    point_b2 = (top_right[0], point_b[1], 0.0)
     line_b = Line(point_b, point_b2)
-    
-    point_c = [point_a[0] + 0.5, bottom_left[1], 0]
+
+    point_c = (point_a[0] + 0.5, bottom_left[1], 0.0)
     c_label = Text("C", font_size=20).next_to(point_c, DOWN, buff=0.1)
-    point_d = [top_right[0], point_b[1] + 1, 0]
+    point_d = (top_right[0], point_b[1] + 1, 0.0)
     d_label = Text("D", font_size=20).next_to(point_d, RIGHT, buff=0.1)
     rect = Polygon(point_a, point_b, point_c, point_d)
-    
-    self.play(ShowCreation(line_a), ShowCreation(line_b), FadeIn(a_label), FadeIn(b_label), FadeIn(c_label), FadeIn(d_label))
-    self.play(ShowCreation(rect))
+
+    self.play(Create(line_a), Create(line_b), FadeIn(a_label), FadeIn(b_label), FadeIn(c_label), FadeIn(d_label))
+    self.play(Create(rect))
 
     # 长度标识
     a2c = Line(point_a2, point_c)
@@ -59,7 +62,7 @@ class Example1(Scene):
     line_oc = DashedLine(point_o, point_c)
     line_od = DashedLine(point_o, point_d)
     line_b2c = DashedLine(point_b2, point_c)
-    self.play(ShowCreation(line_ba2), ShowCreation(line_oc), ShowCreation(line_od), ShowCreation(line_b2c))
+    self.play(Create(line_ba2), Create(line_oc), Create(line_od), Create(line_b2c))
 
     self.wait(2)
 
@@ -80,7 +83,7 @@ class Example1(Scene):
     t_cob2.set_stroke(width=0)
     t_cob2.set_fill(BLUE, opacity=0.2)
 
-    self.play(ShowCreation(t_abo), ShowCreation(t_ado), ShowCreation(t_ba2o), ShowCreation(t_cob2))
+    self.play(Create(t_abo), Create(t_ado), Create(t_ba2o), Create(t_cob2))
     self.wait(2)
 
     # 标记处于ABCD区域的差异面积
@@ -94,7 +97,7 @@ class Example1(Scene):
     t_odo2.set_stroke(width=0)
     t_odo2.set_fill(RED, opacity=0.5)
 
-    self.play(ShowCreation(t_oco1), ShowCreation(t_odo2))
+    self.play(Create(t_oco1), Create(t_odo2))
     self.wait(2)
 
     t_bo1a2 = Polygon(point_b, point_o1, point_a2)
@@ -105,5 +108,5 @@ class Example1(Scene):
     t_co2b2.set_stroke(width=0)
     t_co2b2.set_fill(GREEN, opacity=0.5)
 
-    self.play(ShowCreation(t_bo1a2), ShowCreation(t_co2b2))
+    self.play(Create(t_bo1a2), Create(t_co2b2))
     self.wait(2)
