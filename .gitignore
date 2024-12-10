@@ -3,3 +3,5 @@ media/
 manim/
 videos/
 .DS_Store
+.aider*
+.env

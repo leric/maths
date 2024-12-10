@@ -10,10 +10,8 @@ config['tex_template'] = TexTemplateLibrary.ctex
 
 class Example1(Scene):
   def construct(self):
-    title = Text('面积相等的三角形 综合例题1', font_size=28).to_corner(UP + LEFT)
-    instruction = Text("在边长为10cm的正方形内，有一个四边形ABCD，求这个四边形的面积。", font_size=22)
-    instruction.next_to(title, DOWN, aligned_edge=LEFT)
-    self.play(Write(title), Create(instruction))
+    title = Text('在边长为10cm的正方形内，有一个四边形ABCD，求这个四边形的面积。', font_size=20).to_corner(UP + LEFT)
+    self.add(title)
 
     # 创建一个正方形
     square = Square(side_length=5)
@@ -44,17 +42,15 @@ class Example1(Scene):
 
     # 长度标识
     a2c = Line(point_a2, point_c)
-    a2c_label = Text('1cm', font_size=20)
+    a2c_label = Text('1cm', font_size=18)
     brace_a2c = Brace(a2c, direction=DOWN).put_at_tip(a2c_label)
     brace_a2c.set_stroke(width=1)
-    self.add(a2c_label)
-    self.add(brace_a2c)
-
     b2d = Line(point_b2, point_d)
-    brace_b2d = Brace(b2d, direction=RIGHT).put_at_tip(Text('2cm', font_size=20))
+    b2d_label = Text('2cm', font_size=18)
+    brace_b2d = Brace(b2d, direction=RIGHT).put_at_tip(b2d_label)
     brace_b2d.set_stroke(width=1)
-    self.add(brace_b2d)
-    self.wait(2)
+    self.play(Create(a2c_label), Create(brace_a2c), Create(b2d_label), Create(brace_b2d))
+    self.wait(5)
 
     # 画四条辅助线
     point_o = [point_a[0], point_b[1], 0]

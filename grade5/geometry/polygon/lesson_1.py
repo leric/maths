@@ -12,11 +12,9 @@ class Example1(Scene):
   三角形顶点在底的平行线上移动例题1
   '''
   def construct(self):
-    title = Text('面积相等的三角形 例题1').to_corner(UP + LEFT)
-    instruction = MathTex(r"\text{长方形ABCD长8cm, 宽4cm, 蓝色三角形GEC的面积是}10\text{cm}^2\text{, 求线段OF的长.}",
-                      font_size=20)
-    instruction.next_to(title, DOWN, aligned_edge=LEFT)
-    self.play(Write(title), Create(instruction))
+    title = MathTex(r"\text{长方形ABCD长8cm, 宽4cm, 蓝色三角形GEC的面积是}10\text{cm}^2\text{, 求线段OF的长.}",
+                      font_size=20).to_corner(UP + LEFT)
+    self.add(title)
 
     # 创建一个长方形
     rect = Rectangle(width=4, height=3)
@@ -44,7 +42,7 @@ class Example1(Scene):
     triangle = Polygon(point_e, bottom_right, point_g)
     triangle.set_fill(BLUE, opacity=0.5)
 
-    o_point = find_intersection(point_e, point_f, bottom_right, point_g)
+    o_point = intersect_point(point_e, point_f, bottom_right, point_g)
     o_label = Text("O", font_size=20).next_to(o_point, UP, buff=0.1)
     o_dot = Dot(o_point)
     self.play(Create(triangle), FadeIn(g_label), FadeIn(g_dot), FadeIn(o_dot), FadeIn(o_label))
@@ -149,3 +147,10 @@ class Example2(Scene):
       UpdateFromFunc(beh2, move_b_point),
       run_time=2
     )
+
+
+def intersect_point(p1, p2, p3, p4):
+  """
+  计算直线p1p2和直线p3p4的交点
+  """
+  
