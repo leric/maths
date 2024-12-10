@@ -12,8 +12,8 @@ class Example1(Scene):
   三角形顶点在底的平行线上移动例题1
   '''
   def construct(self):
-    title = MathTex(r"\text{长方形ABCD长8cm, 宽4cm, 蓝色三角形GEC的面积是}10\text{cm}^2\text{, 求线段OF的长.}",
-                      font_size=20).to_corner(UP + LEFT)
+    title = MathTex(r"\text{长方形ABCD长8cm, 宽4cm, 蓝色三角形GEC的面积是}10\text{cm}^2\text{, 求线段EO的长.}",
+                      font_size=22).to_corner(UP + LEFT)
     self.add(title)
 
     # 创建一个长方形
@@ -95,13 +95,18 @@ class Example1(Scene):
 
     self.wait(2)
 
+    # 列出算式
+    result = Text(r"10 × 2 ÷ 4 = 5cm", font_size=24).to_edge(RIGHT)
+    self.play(Write(result))
+    self.wait(2)
+
 
 class Example2(Scene):
   def construct(self):
-    title = Text('面积相等的三角形 例题2').to_corner(UP + LEFT)
-    instruction = Tex(r"\text{.}", font_size=20).next_to(title, DOWN, aligned_edge=LEFT)
-    self.play(Write(title), Create(instruction))
-
+    title = Text("直角梯形ABCD的上底与高相等，正方形DEFH的边长为6cm，涂色部分的面积是多少？",
+              font_size=20).to_corner(UP + LEFT)
+    self.add(title)
+  
     # 画出一个正方形，一个直角梯形
     D = (0, 0, 0)
     E = (0, -2, 0)
@@ -122,16 +127,17 @@ class Example2(Scene):
     self.play(Create(defh), Create(abcd), *[Create(x) for x in lables])
 
     # 画出要求面积的三角形
-    O = find_intersection(E, B, C, D)
+    O = intersect_point(E, B, C, D)
     lable_o = Text('O', font_size=20).next_to(O, UP, buff=0.1)
     beh = Polygon(B, E, H)
     beh.set_fill(BLUE, opacity=0.5)
     self.play(Create(beh), Create(lable_o))
-    self.wait(2)
+    self.wait(4)
 
     # 画出辅助线BD，平行AC
     line_db = DashedLine(B, D)
     self.play(Create(line_db))
+    self.wait(2)
 
     # 移动三角形顶点
     b_dot = Dot(B)
@@ -147,10 +153,26 @@ class Example2(Scene):
       UpdateFromFunc(beh2, move_b_point),
       run_time=2
     )
+    self.wait(2)
 
 
 def intersect_point(p1, p2, p3, p4):
-  """
-  计算直线p1p2和直线p3p4的交点
-  """
+    """
+    计算直线p1p2和直线p3p4的交点
+    """
+    x1, y1 = p1[:2]
+    x2, y2 = p2[:2]
+    x3, y3 = p3[:2]
+    x4, y4 = p4[:2]
+
+    denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+
+    if denominator == 0:
+        # Lines are parallel
+        return None
+
+    px = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denominator
+    py = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / denominator
+
+    return (px, py, 0.0)
   

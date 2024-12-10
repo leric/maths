@@ -10,7 +10,7 @@ config['tex_template'] = TexTemplateLibrary.ctex
 
 class Example1(Scene):
   def construct(self):
-    title = Text('在边长为10cm的正方形内，有一个四边形ABCD，求这个四边形的面积。', font_size=20).to_corner(UP + LEFT)
+    title = Text('在边长为10cm的正方形内，有一个四边形ABCD，求这个四边形的面积。', font_size=22).to_corner(UP + LEFT)
     self.add(title)
 
     # 创建一个正方形
@@ -105,4 +105,13 @@ class Example1(Scene):
     t_co2b2.set_fill(GREEN, opacity=0.5)
 
     self.play(Create(t_bo1a2), Create(t_co2b2))
+    self.wait(2)
+
+    # 列出算式
+    result = Text("ABCD面积 = 正方形面积 ÷ 2 - 绿色部分面积 + 红色部分面积", font_size=20).to_corner(DOWN + RIGHT)
+    self.play(Write(result))
+    self.wait(2)
+
+    equation = Text("红色 - 绿色 = 2 × h ÷ 2 - 2 × (h - 1) ÷ 2 = h - (h - 1) = 1", font_size=20).next_to(result, DOWN)
+    self.play(Write(equation))
     self.wait(2)
